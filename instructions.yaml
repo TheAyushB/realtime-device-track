@@ -1,0 +1,31 @@
+geolocation:
+  check_support: "Check if the browser supports geolocation."
+  options:
+    high_accuracy: true
+    timeout: 5000
+    no_caching: true
+  watch_position:
+    description: "Track the user's location continuously using watchPosition."
+    emit: "send-location"
+    log_errors: true
+
+map:
+  initialize:
+    center_coordinates: [0, 0]
+    zoom_level: 15
+    library: "Leaflet"
+    tiles: "OpenStreetMap"
+  markers:
+    empty_object: true
+
+socket_data:
+  on_receive:
+    extract:
+      - id
+      - latitude
+      - longitude
+    actions:
+      - "Center the map on the new coordinates."
+      - "Update marker position if it exists."
+      - "Create a new marker if it doesn't exist."
+      - "Remove marker when the user disconnects."
