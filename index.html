@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Tracking</title>
+    <style>
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <script>
+        // Initialize the map
+        const map = L.map("map").setView([0, 0], 15);
+
+        // Add OpenStreetMap tiles
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: 'A project by TheAyushB',
+        }).addTo(map);
+
+        // Markers object to keep track of users
+        const markers = {};
+
+        // Connect to the socket server
+        const socket = io("http://localhost:3000");
+
+        // Check Geolocation Support
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(
+                (position) => {
+                    const {
+                        latitude,
+                        longitude
+                    } = position.coords;
+
+                    // Emit location data to the server
+                    socket.emit("send-location", {
+                        latitude,
+                        longitude
+                    });
+                },
+                (error) => console.error("Error with geolocation:", error), {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0,
+                }
+            );
+        } else {
+            alert("Geolocation is not supported by your browser.");
+        }
+
+        // Handle location updates from the server
+        socket.on("update-location", (data) => {
+            const {
+                id,
+                latitude,
+                longitude
+            } = data;
+
+            if (markers[id]) {
+                // Update existing marker
+                markers[id].setLatLng([latitude, longitude]);
+            } else {
+                // Create a new marker
+                const marker = L.marker([latitude, longitude]).addTo(map);
+                markers[id] = marker;
+
+                // Center map on the user's location
+                map.setView([latitude, longitude], 15);
+            }
+        });
+
+        // Handle user disconnections
+        socket.on("remove-marker", (id) => {
+            if (markers[id]) {
+                map.removeLayer(markers[id]); // Remove marker from the map
+                delete markers[id]; // Delete from markers object
+            }
+        });
+    </script>
+</body>
+
+</html>
