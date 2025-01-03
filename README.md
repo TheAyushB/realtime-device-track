@@ -5,6 +5,7 @@
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Setup Instructions](#setup-instructions)
+- [Screenshots](#screenshots)
 - [Future Improvements](#future-improvements)
 - [Assignment Details](#assignment-details)
 - [License](#license)
@@ -61,6 +62,18 @@ This repository contains the source code for a **Real-Time Device Tracking Appli
      node app.js
    ```
 4. Access the application in your browser at http://localhost:3000.
+
+## Screenshots
+
+```
+    Live Tracking:
+```
+    
+  ![Live Tracking](https://github.com/user-attachments/assets/75b91cfb-3281-43e8-a9f7-a36405cf7f46)
+```
+    Coordinates Update Live:
+```
+  ![coords update live](https://github.com/user-attachments/assets/39b32b19-3022-4454-9f1c-80d84444281f)
 
 
 ## Future Improvements
