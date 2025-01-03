@@ -93,7 +93,7 @@ This repository contains the source code for a **Real-Time Device Tracking Appli
   Enhance performance to manage a larger fleet of agents.
 
 ## Assignment Details
-   Refer to [assignments.md](assignments.md) for a detailed problem statement and instructions.
+   Refer to [assignments.md](https://github.com/TheAyushB/realtime-device-track/blob/main/assignment.md) for a detailed problem statement and instructions.
 
 ### Summary
    This application was developed as a part of an assignment to demonstrate real-time device tracking using geolocation and maps. It showcases essential features like dynamic marker updates, error handling, and an interactive map interface.
